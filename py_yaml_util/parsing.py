@@ -4,26 +4,23 @@ import os
 
 def main():
     yaml_file('https://raw.githubusercontent.com/unitedstates/congress-legislators/master/executive.yaml')
-    get_birthday("Thomas", "Jefferson")
+    get_birthday(first="Thomas", last="Jefferson")
 
 
 def yaml_file(url):
     r = requests.get(url)
-    r.raw
     r.raw.read()
     with open(path1, 'wb') as fd:
         for chunk in r.iter_content():
             fd.write(chunk)
 
 
-def get_birthday(fname,lname):
-
+def get_birthday(**kwargs):
     with open(path1, 'r') as f:
         data = yaml.load(f)
         for name1 in data:
-            if(name1['name']['first']==fname and name1['name']['last']==lname):
-                txt = name1['bio']['birthday']
-                print(txt)
+            if(name1['name']==kwargs):
+                print("birthday:",name1['bio']['birthday'])
 
 
 def _get_file_path():
